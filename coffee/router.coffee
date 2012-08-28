@@ -1,7 +1,6 @@
 define [
   'views/home'
-  'views/time'
-], (HomeView, TimeView) ->
+], (HomeView) ->
 
   class AppRouter extends Backbone.Router
     routes:

@@ -1,27 +1,19 @@
 define [
-  'views/set_time'
-  'views/set_alarm',
-
   'text!templates/home.html'
-], (homeTemplate, SetTimeView, SetAlarmView) ->
+
+  'views/home_sub'
+], (template, HomeSubView) ->
   
   class HomeView extends Backbone.View
 
     el: '#container'
 
-    template: homeTemplate
-
-    events:
-      'click #time': ->
-        (new SetTimeView()).render()
-
-      'click #alarm': ->
-        (new SetAlarmView()).render()
-
-      'click #weather': ->
-        $('#weather-form').toggle()
+    template: _.template(template)
 
     render: ->
-      $(@el).html(@template)
+      @$el.html(@template)
+
+      time_view = new HomeSubView('#time', 'Set time', 
+      (new HomeSubView()).render()
       this
 

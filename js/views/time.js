@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['text!templates/time.html'], function(timeTemplate) {
+  define(['text!templates/home_sub.html', 'text!templates/time_input.html'], function(templateHomeSub, templateTimeInput) {
     var TimeView;
     return TimeView = (function(_super) {
 
@@ -13,13 +13,27 @@
         return TimeView.__super__.constructor.apply(this, arguments);
       }
 
-      TimeView.prototype.el = '#time-view';
+      TimeView.prototype.el = '#time';
 
-      TimeView.prototype.template = timeTemplate;
+      TimeView.prototype.template = _.template(templateHomeSub)({
+        label: 'Set alarm',
+        content: _.template(templateTimeInput)
+      });
+
+      TimeView.prototype.events = {
+        'click button': function() {
+          return this.toggleContent();
+        }
+      };
 
       TimeView.prototype.render = function() {
-        $(this.el).html(this.template);
+        this.$el.html(this.template);
+        this.toggleContent();
         return this;
+      };
+
+      TimeView.prototype.toggleContent = function() {
+        return this.$('#content').toggle();
       };
 
       return TimeView;
