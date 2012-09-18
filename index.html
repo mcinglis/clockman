@@ -16,7 +16,7 @@
     <div id="container">
     </div>
 
-    <script id="home-template" type="text/template">
+    <script type="text/template" id="home-template">
       <div class="hero-unit center">
         <h1>Clockman</h1>
         <p>Manage your clock anywhere with anything.</p>
@@ -32,16 +32,20 @@
       </div>
     </script>
 
-    <script id="transmission-template" type="text/template">
+    <script type="text/template" id="transmission-template">
       <p>Please hold the clock's light sensor and this screen close together to ensure a successful transmission.</p>
       <p>Transmission will begin in <span id="count"><%= waitTime / 1000 %></span>...</p>
     </script>
 
+    <script src="js/coffee-script.js"></script>
+    <script src="js/json2.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/backbone.js"></script>
 
     <script type="text/javascript">
+      $(function(){
+      });
     </script>
   </body>
 </html>
