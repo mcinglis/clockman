@@ -4,12 +4,39 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Clockman</title>
+
     <link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-    <script data-main="js/main" src="js/lib/require/require.js"></script>
+    <link href="css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="css/application.css" media="all" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+    </script>
   </head>
   <body>
     <div id="container">
     </div>
+
+    <script id="home-template" type="text/template">
+      <div class="hero-unit center">
+        <h1>Clockman</h1>
+        <p>Manage your clock anywhere with anything.</p>
+        <form>
+          <div class="control-group">
+            <input id="time" type="text" placeholder="8:59pm, 21:04, 0030, etc." />
+          </div>
+          <div>
+            <button id="set-time" type="submit" class="btn btn-large btn-primary">Set time</button>
+            <button id="set-alarm" type="submit" class="btn btn-large btn-primary">Set alarm</button>
+          </div>
+        </form>
+      </div>
+    </script>
+
+    <script id="transmission-template" type="text/template">
+      <p>Please hold the clock's light sensor and this screen close together to ensure a successful transmission.</p>
+      <p>Transmission will begin in <span id="count"><%= waitTime / 1000 %></span>...</p>
+    </script>
   </body>
 </html>
