@@ -1,0 +1,25 @@
+
+/* body { */
+/*   background-color: #EEE; */
+/* } */
+
+h1 {
+  font-size: 4.2em;
+  margin-bottom: 0;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+p {
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 30px;
+}
+
+#container {
+  padding: 2em;
+}
+
+.center {
+  text-align: center;
+}
