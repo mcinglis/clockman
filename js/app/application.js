@@ -16,9 +16,13 @@
   Transmission = (function() {
 
     Transmission.fromString = function(string) {
-      var parts;
+      var command, debug, hours, minutes, parts;
       parts = string.split('-');
-      return new Transmission(parts[0], parts[1], parts[2]);
+      command = parts[0];
+      hours = parts[1];
+      minutes = parts[2];
+      debug = parts.length > 3 && parts[3] === 'debug';
+      return new Transmission(command, hours, minutes, debug);
     };
 
     Transmission.prototype.prefix = '10011001';
@@ -28,10 +32,14 @@
       'alarm': '10'
     };
 
-    function Transmission(command, hours, minutes) {
+    function Transmission(command, hours, minutes, debug) {
+      if (debug == null) {
+        debug = false;
+      }
       this.command = command;
       this.hours = parseInt(hours);
       this.minutes = parseInt(minutes);
+      this.debug = Boolean(debug);
       this.code = this.prefix;
       this.code += this.commands[this.command];
       this.code += zeroPad(this.hours.toString(2), 5);
@@ -39,7 +47,12 @@
     }
 
     Transmission.prototype.toString = function() {
-      return [this.command, zeroPad(this.hours, 2), zeroPad(this.minutes, 2)].join('-');
+      var xs;
+      xs = [this.command, zeroPad(this.hours, 2), zeroPad(this.minutes, 2)];
+      if (this.debug) {
+        xs.push(this.debug);
+      }
+      return xs.join('-');
     };
 
     return Transmission;
@@ -200,7 +213,7 @@
 
     TransmissionView.prototype.template = inlineTemplate('#transmission-template');
 
-    TransmissionView.prototype.waitTime = 3000;
+    TransmissionView.prototype.waitTime = 1000;
 
     TransmissionView.prototype.flashFrequency = 500;
 
@@ -209,7 +222,7 @@
       this.$el.html(this.template({
         waitTime: this.waitTime
       }));
-      setTimeout(this.flash, this.waitTime, this.model.code);
+      setTimeout(this.flash, this.waitTime, this.model.code, this.model.debug);
       transmissionTime = this.waitTime + (this.model.code.length * this.flashFrequency);
       setTimeout(this.renderFinished, transmissionTime);
       setTimeout(this.goHome, transmissionTime + 1000);
@@ -226,20 +239,25 @@
       });
     };
 
-    TransmissionView.prototype.flash = function(code) {
+    TransmissionView.prototype.flash = function(code, debug) {
       var f,
         _this = this;
+      if (debug == null) {
+        debug = false;
+      }
+      if (debug) {
+        alert('Flashing: ' + code);
+      }
       this.$el.empty();
       f = function() {
-        if (code[0] === '1') {
-          $('body').css({
-            background: '#000'
-          });
-        } else {
-          $('body').css({
-            background: '#FFF'
-          });
+        var color;
+        if (debug) {
+          alert('Code = ' + code);
         }
+        color = code[0] === '1' ? '#FFF' : '#000';
+        $('body').css({
+          background: color
+        });
         code = code.slice(1);
         if (code === '') {
           return $('body').css({

@@ -7,7 +7,11 @@ zeroPad = (x, length) ->
 class Transmission
   @fromString: (string) ->
     parts = string.split('-')
-    new Transmission(parts[0], parts[1], parts[2])
+    command = parts[0]
+    hours = parts[1]
+    minutes = parts[2]
+    debug = parts.length > 3 and parts[3] is 'debug'
+    new Transmission(command, hours, minutes, debug)
 
   prefix: '10011001'
 
@@ -15,10 +19,11 @@ class Transmission
     'time': '01'
     'alarm': '10'
 
-  constructor: (command, hours, minutes) ->
+  constructor: (command, hours, minutes, debug=no) ->
     @command = command
     @hours = parseInt(hours)
     @minutes = parseInt(minutes)
+    @debug = Boolean(debug)
 
     @code = @prefix
     @code += @commands[@command]
@@ -26,7 +31,10 @@ class Transmission
     @code += zeroPad(@minutes.toString(2), 6)
 
   toString: ->
-    [@command, zeroPad(@hours, 2), zeroPad(@minutes, 2)].join('-')
+    xs = [@command, zeroPad(@hours, 2), zeroPad(@minutes, 2)]
+    if @debug
+      xs.push(@debug)
+    xs.join('-')
 
 class Time
   patterns:
@@ -108,12 +116,12 @@ class TransmissionView extends Backbone.View
 
   template: inlineTemplate('#transmission-template')
 
-  waitTime: 3000
+  waitTime: 1000
   flashFrequency: 500
 
   render: ->
     @$el.html(@template(waitTime: @waitTime))
-    setTimeout(@flash, @waitTime, @model.code)
+    setTimeout(@flash, @waitTime, @model.code, @model.debug)
     transmissionTime = @waitTime + (@model.code.length * @flashFrequency)
     setTimeout(@renderFinished, transmissionTime)
     setTimeout(@goHome, transmissionTime + 1000)
@@ -125,13 +133,18 @@ class TransmissionView extends Backbone.View
   goHome: ->
     Backbone.history.navigate('', trigger: true)
 
-  flash: (code) =>
+  flash: (code, debug=no) =>
+    if debug
+      alert 'Flashing: ' + code
+
     @$el.empty()
     f = =>
-      if code[0] is '1'
-        $('body').css(background: '#000')
-      else
-        $('body').css(background: '#FFF')
+      if debug
+        alert 'Code = ' + code
+
+      color = if code[0] is '1' then '#FFF' else '#000'
+      $('body').css(background: color)
+
       code = code.slice(1)
       if code == ''
         $('body').css(background: '#FFF')
