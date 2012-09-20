@@ -64,20 +64,23 @@
     Time.prototype.patterns = {
       "/^(0?[1-9]|1[0-2]):([0-5][0-9])\\s*(am|pm)$/i": function(exec) {
         var hours, minutes;
-        hours = parseInt(exec[1]);
+        hours = parseInt(exec[1], 10);
         if (exec[3].toLowerCase() === 'pm' && hours !== 12) {
           hours += 12;
         }
-        minutes = parseInt(exec[2]);
+        minutes = parseInt(exec[2], 10);
         return {
           hours: hours,
           minutes: minutes
         };
       },
       "/^([0-1]\\d|2[0-3]):?([0-5]\\d)$/i": function(exec) {
+        var hours, minutes;
+        hours = parseInt(exec[1], 10);
+        minutes = parseInt(exec[2], 10);
         return {
-          hours: parseInt(exec[1]),
-          minutes: parseInt(exec[2])
+          hours: hours,
+          minutes: minutes
         };
       }
     };
@@ -215,7 +218,7 @@
 
     TransmissionView.prototype.waitTime = 1000;
 
-    TransmissionView.prototype.flashFrequency = 500;
+    TransmissionView.prototype.flashFrequency = 200;
 
     TransmissionView.prototype.render = function() {
       var transmissionTime;
