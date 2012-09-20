@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Clockman</title>
+
+    <link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="css/application.css" media="all" rel="stylesheet" type="text/css" />
+
+  </head>
+  <body>
+    <div id="container">
+    </div>
+
+    <script type="text/template" id="home-template">
+      <div class="center">
+        <h1>Clockman</h1>
+        <p>Manage your clock anywhere with anything.</p>
+        <form>
+          <div class="control-group">
+            <input id="time" class="span3" type="text" placeholder="8:59pm, 21:04, 0030, etc." />
+          </div>
+          <div>
+            <button id="set-time" type="submit" class="btn btn-large btn-primary">Set time</button>
+            <button id="set-alarm" type="submit" class="btn btn-large btn-primary">Set alarm</button>
+          </div>
+        </form>
+      </div>
+    </script>
+
+    <script type="text/template" id="transmission-template">
+      <div class="center">
+        <p>Please hold the clock's light sensor and this screen close together to ensure a successful transmission.</p>
+        <p>Transmission will begin in <span id="count"><%= waitTime / 1000 %></span>...</p>
+      </div>
+    </script>
+
+    <script type="text/template" id="transmission-finished-template">
+      <div class="center">
+        <p>Done!</p>
+      </div>
+    </script>
+
+    <script src="js/lib/json2.js"></script>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/underscore.js"></script>
+    <script src="js/lib/backbone.js"></script>
+
+    <script src="js/app/application.js"></script>
+  </body>
+</html>
