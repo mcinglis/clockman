@@ -40,14 +40,14 @@ class Transmission
 
 class Time
   patterns:
-    "/^(0?[1-9]|1[0-2]):([0-5][0-9])\\s*(am|pm)$/i": (exec) ->
+    "/^(0?[1-9]|1[0-2])[:.]([0-5][0-9])\\s*(am|pm)$/i": (exec) ->
       hours = parseInt(exec[1], 10)
       if exec[3].toLowerCase() == 'pm' and hours != 12
         hours += 12
       minutes = parseInt(exec[2], 10)
       hours: hours, minutes: minutes
 
-    "/^([0-1]\\d|2[0-3]):?([0-5]\\d)$/i": (exec) ->
+    "/^([0-1]\\d|2[0-3])[:.]?([0-5]\\d)$/i": (exec) ->
       hours = parseInt(exec[1], 10)
       minutes = parseInt(exec[2], 10)
       hours: hours, minutes: minutes

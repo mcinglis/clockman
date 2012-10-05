@@ -62,7 +62,7 @@
   Time = (function() {
 
     Time.prototype.patterns = {
-      "/^(0?[1-9]|1[0-2]):([0-5][0-9])\\s*(am|pm)$/i": function(exec) {
+      "/^(0?[1-9]|1[0-2])[:.]([0-5][0-9])\\s*(am|pm)$/i": function(exec) {
         var hours, minutes;
         hours = parseInt(exec[1], 10);
         if (exec[3].toLowerCase() === 'pm' && hours !== 12) {
@@ -74,7 +74,7 @@
           minutes: minutes
         };
       },
-      "/^([0-1]\\d|2[0-3]):?([0-5]\\d)$/i": function(exec) {
+      "/^([0-1]\\d|2[0-3])[:.]?([0-5]\\d)$/i": function(exec) {
         var hours, minutes;
         hours = parseInt(exec[1], 10);
         minutes = parseInt(exec[2], 10);
