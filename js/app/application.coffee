@@ -130,6 +130,7 @@ class TransmissionView extends Backbone.View
     this
 
   renderFinished: =>
+    $('body').css(background: '#FFF')
     @$el.html(inlineTemplate('#transmission-finished-template'))
 
   goHome: ->
@@ -144,13 +145,12 @@ class TransmissionView extends Backbone.View
       if debug
         alert 'Code = ' + code
 
-      color = if code[0] is '1' then '#FFF' else '#000'
-      $('body').css(background: color)
+      $('body').css(
+        background: if code[0] is '1' then '#FFF' else '#000'
+      )
 
       code = code.slice(1)
-      if code == ''
-        $('body').css(background: '#FFF')
-      else
+      unless code == ''
         setTimeout(f, @flashFrequency)
     f()
 
