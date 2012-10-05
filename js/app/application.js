@@ -206,9 +206,9 @@
     __extends(TransmissionView, _super);
 
     function TransmissionView() {
-      this.flash = __bind(this.flash, this);
-
       this.renderFinished = __bind(this.renderFinished, this);
+
+      this.flash = __bind(this.flash, this);
       return TransmissionView.__super__.constructor.apply(this, arguments);
     }
 
@@ -220,6 +220,8 @@
 
     TransmissionView.prototype.flashFrequency = 200;
 
+    TransmissionView.prototype.doneWaitTime = 1000;
+
     TransmissionView.prototype.render = function() {
       var transmissionTime;
       this.$el.html(this.template({
@@ -227,19 +229,7 @@
       }));
       setTimeout(this.flash, this.waitTime, this.model.code, this.model.debug);
       transmissionTime = this.waitTime + (this.model.code.length * this.flashFrequency);
-      setTimeout(this.renderFinished, transmissionTime);
-      setTimeout(this.goHome, transmissionTime + 1000);
       return this;
-    };
-
-    TransmissionView.prototype.renderFinished = function() {
-      return this.$el.html(inlineTemplate('#transmission-finished-template'));
-    };
-
-    TransmissionView.prototype.goHome = function() {
-      return Backbone.history.navigate('', {
-        trigger: true
-      });
     };
 
     TransmissionView.prototype.flash = function(code, debug) {
@@ -253,24 +243,34 @@
       }
       this.$el.empty();
       f = function() {
-        var color;
         if (debug) {
           alert('Code = ' + code);
         }
-        color = code[0] === '1' ? '#FFF' : '#000';
         $('body').css({
-          background: color
+          background: code[0] === '1' ? '#FFF' : '#000'
         });
         code = code.slice(1);
         if (code === '') {
-          return $('body').css({
-            background: '#FFF'
-          });
+          setTimeout(_this.renderFinished, _this.flashFrequency);
+          return setTimeout(_this.goHome, _this.flashFrequency + _this.doneWaitTime);
         } else {
           return setTimeout(f, _this.flashFrequency);
         }
       };
       return f();
+    };
+
+    TransmissionView.prototype.renderFinished = function() {
+      $('body').css({
+        background: '#FFF'
+      });
+      return this.$el.html(inlineTemplate('#transmission-finished-template'));
+    };
+
+    TransmissionView.prototype.goHome = function() {
+      return Backbone.history.navigate('', {
+        trigger: true
+      });
     };
 
     return TransmissionView;

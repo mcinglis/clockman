@@ -4,6 +4,7 @@ inlineTemplate = (selector) -> _.template $(selector).html()
 zeroPad = (x, length) ->
   (new Array(length + 1 - x.toString().length)).join('0') + x
 
+
 class Transmission
   @fromString: (string) ->
     parts = string.split('-')
@@ -36,6 +37,7 @@ class Transmission
       xs.push(@debug)
     xs.join('-')
 
+
 class Time
   patterns:
     "/^(0?[1-9]|1[0-2]):([0-5][0-9])\\s*(am|pm)$/i": (exec) ->
@@ -63,6 +65,7 @@ class Time
         return parser(re.exec(text))
     return null
 
+
 class Router extends Backbone.Router
   routes:
     '': 'home'
@@ -74,6 +77,7 @@ class Router extends Backbone.Router
   transmit: (transmission) ->
     t = Transmission.fromString(transmission)
     (new TransmissionView(model: t)).render()
+
 
 class HomeView extends Backbone.View
   el: '#container'
@@ -113,6 +117,7 @@ class HomeView extends Backbone.View
     e.preventDefault()
     @startTransmission('alarm')
 
+
 class TransmissionView extends Backbone.View
   el: '#container'
 
@@ -127,13 +132,6 @@ class TransmissionView extends Backbone.View
     setTimeout(@flash, @waitTime, @model.code, @model.debug)
     transmissionTime = @waitTime + (@model.code.length * @flashFrequency)
     this
-
-  renderFinished: =>
-    $('body').css(background: '#FFF')
-    @$el.html(inlineTemplate('#transmission-finished-template'))
-
-  goHome: ->
-    Backbone.history.navigate('', trigger: true)
 
   flash: (code, debug=no) =>
     if debug
@@ -155,6 +153,14 @@ class TransmissionView extends Backbone.View
       else
         setTimeout(f, @flashFrequency)
     f()
+
+  renderFinished: =>
+    $('body').css(background: '#FFF')
+    @$el.html(inlineTemplate('#transmission-finished-template'))
+
+  goHome: ->
+    Backbone.history.navigate('', trigger: true)
+
 
 $ ->
   new Router()
