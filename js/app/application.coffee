@@ -120,13 +120,12 @@ class TransmissionView extends Backbone.View
 
   waitTime: 1000
   flashFrequency: 200
+  doneWaitTime: 1000
 
   render: ->
     @$el.html(@template(waitTime: @waitTime))
     setTimeout(@flash, @waitTime, @model.code, @model.debug)
     transmissionTime = @waitTime + (@model.code.length * @flashFrequency)
-    setTimeout(@renderFinished, transmissionTime)
-    setTimeout(@goHome, transmissionTime + 1000)
     this
 
   renderFinished: =>
@@ -150,7 +149,10 @@ class TransmissionView extends Backbone.View
       )
 
       code = code.slice(1)
-      unless code == ''
+      if code == ''
+        setTimeout(@renderFinished, @flashFrequency)
+        setTimeout(@goHome, @flashFrequency + @doneWaitTime)
+      else
         setTimeout(f, @flashFrequency)
     f()
 
