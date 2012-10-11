@@ -216,11 +216,11 @@
 
     TransmissionView.prototype.template = inlineTemplate('#transmission-template');
 
-    TransmissionView.prototype.waitTime = 1000;
+    TransmissionView.prototype.waitTime = 3000;
 
     TransmissionView.prototype.flashFrequency = 200;
 
-    TransmissionView.prototype.doneWaitTime = 1000;
+    TransmissionView.prototype.doneWaitTime = 2000;
 
     TransmissionView.prototype.render = function() {
       var transmissionTime;
