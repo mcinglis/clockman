@@ -123,9 +123,9 @@ class TransmissionView extends Backbone.View
 
   template: inlineTemplate('#transmission-template')
 
-  waitTime: 1000
+  waitTime: 3000
   flashFrequency: 200
-  doneWaitTime: 1000
+  doneWaitTime: 2000
 
   render: ->
     @$el.html(@template(waitTime: @waitTime))
