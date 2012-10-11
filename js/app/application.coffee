@@ -22,8 +22,8 @@ class Transmission
 
   constructor: (command, hours, minutes, debug=no) ->
     @command = command
-    @hours = parseInt(hours)
-    @minutes = parseInt(minutes)
+    @hours = parseInt(hours, 10)
+    @minutes = parseInt(minutes, 10)
     @debug = Boolean(debug)
 
     @code = @prefix

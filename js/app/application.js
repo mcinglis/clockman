@@ -37,8 +37,8 @@
         debug = false;
       }
       this.command = command;
-      this.hours = parseInt(hours);
-      this.minutes = parseInt(minutes);
+      this.hours = parseInt(hours, 10);
+      this.minutes = parseInt(minutes, 10);
       this.debug = Boolean(debug);
       this.code = this.prefix;
       this.code += this.commands[this.command];
